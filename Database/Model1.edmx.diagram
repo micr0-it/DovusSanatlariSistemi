@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f1549dbc97484568bb02e32de915fae5" Name="Diagram1">
+        <EntityTypeShape EntityType="DovusSanatlariModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_adres" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_derece" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_dersler" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_dersprog" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_kullanici" Width="1.5" PointX="7.5" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DovusSanatlariModel.tbl_ds_menu" Width="1.5" PointX="2.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_dersler_tbl_ds_adres" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_dersprog_tbl_ds_adres" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_kullanici_tbl_ds_adres" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_kullanici_tbl_ds_derece" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_dersprog_tbl_ds_dersler" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.FK_tbl_ds_kullanici_tbl_ds_dersprog" ManuallyRouted="false" />
+        <AssociationConnector Association="DovusSanatlariModel.tbl_ds_kullanicidersler" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DovusSanatlariModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_ds_adres">
+          <Key>
+            <PropertyRef Name="adres_id" />
+          </Key>
+          <Property Name="adres_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="il" Type="varchar" MaxLength="30" />
+          <Property Name="ilce" Type="varchar" MaxLength="30" />
+          <Property Name="mahalle" Type="varchar" MaxLength="30" />
+          <Property Name="cadde" Type="varchar" MaxLength="30" />
+          <Property Name="sokak" Type="varchar" MaxLength="30" />
+          <Property Name="bina_ad" Type="varchar" MaxLength="30" />
+          <Property Name="bina_no" Type="nvarchar" MaxLength="10" />
+          <Property Name="kat" Type="nvarchar" MaxLength="50" />
+          <Property Name="postakodu" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tbl_ds_derece">
+          <Key>
+            <PropertyRef Name="ds_derece_id" />
+          </Key>
+          <Property Name="ds_derece_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ds_derece" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_ds_dersler">
+          <Key>
+            <PropertyRef Name="ds_ders_id" />
+          </Key>
+          <Property Name="ds_ders_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ds_ders_adi" Type="nvarchar" MaxLength="20" />
+          <Property Name="ds_ders_adres_fkid" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="tbl_ds_dersprog">
+          <Key>
+            <PropertyRef Name="ds_dersprog_id" />
+          </Key>
+          <Property Name="ds_dersprog_id" Type="tinyint" Nullable="false" />
+          <Property Name="ds_dersprog_tarih" Type="nvarchar" MaxLength="70" />
+          <Property Name="ds_dersprog_ders_fkid" Type="tinyint" />
+          <Property Name="ds_dersprog_adres_fkid" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="tbl_ds_kullanici">
+          <Key>
+            <PropertyRef Name="ds_kullanici_id" />
+          </Key>
+          <Property Name="ds_kullanici_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ds_kullanici_stili" Type="varchar" MaxLength="10" />
+          <Property Name="ds_kullanici_ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="ds_kullanici_soyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="ds_kullanici_adres" Type="tinyint" />
+          <Property Name="ds_kullanici_yas" Type="nchar" MaxLength="2" />
+          <Property Name="ds_kullanici_sifre" Type="nchar" MaxLength="50" />
+          <Property Name="ds_kullanici_dpfkid" Type="tinyint" />
+          <Property Name="ds_kullanici_derece_fkid" Type="tinyint" />
+          <Property Name="ds_kullanici_posta" Type="nvarchar" MaxLength="100" />
+          <Property Name="ds_kullanici_dersfkid" Type="tinyint" />
+          <Property Name="ds_kullanici_aktif" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_ds_kullanicidersler">
+          <Key>
+            <PropertyRef Name="ds_ders_fkid" />
+            <PropertyRef Name="ds_kullanici_fkid" />
+          </Key>
+          <Property Name="ds_ders_fkid" Type="tinyint" Nullable="false" />
+          <Property Name="ds_kullanici_fkid" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_ds_menu">
+          <Key>
+            <PropertyRef Name="ds_menu_id" />
+          </Key>
+          <Property Name="ds_menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ds_menu_ad" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ds_menu_yetki" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ds_menu_aktif" Type="bit" Nullable="false" />
+          <Property Name="ds_menu_sırala" Type="int" />
+          <Property Name="ds_menu_nav_url" Type="varchar" MaxLength="150" />
+          <Property Name="ds_menu_fkid" Type="int" />
+        </EntityType>
+        <Association Name="FK_tbl_ds_dersler_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersler">
+              <PropertyRef Name="ds_ders_adres_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_dersprog_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_adres_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_dersprog_tbl_ds_dersler">
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_dersler">
+              <PropertyRef Name="ds_ders_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_ders_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_adres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_derece">
+          <End Role="tbl_ds_derece" Type="Self.tbl_ds_derece" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_derece">
+              <PropertyRef Name="ds_derece_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_derece_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_dersprog">
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_dpfkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanicidersler_tbl_ds_dersler">
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="1" />
+          <End Role="tbl_ds_kullanicidersler" Type="Self.tbl_ds_kullanicidersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_dersler">
+              <PropertyRef Name="ds_ders_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanicidersler">
+              <PropertyRef Name="ds_ders_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanicidersler_tbl_ds_kullanici">
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="1" />
+          <End Role="tbl_ds_kullanicidersler" Type="Self.tbl_ds_kullanicidersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanicidersler">
+              <PropertyRef Name="ds_kullanici_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DovusSanatlariModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_adres" EntityType="Self.tbl_ds_adres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_derece" EntityType="Self.tbl_ds_derece" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_dersler" EntityType="Self.tbl_ds_dersler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_dersprog" EntityType="Self.tbl_ds_dersprog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_kullanici" EntityType="Self.tbl_ds_kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_kullanicidersler" EntityType="Self.tbl_ds_kullanicidersler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ds_menu" EntityType="Self.tbl_ds_menu" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_ds_dersler_tbl_ds_adres" Association="Self.FK_tbl_ds_dersler_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_dersprog_tbl_ds_adres" Association="Self.FK_tbl_ds_dersprog_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_dersprog_tbl_ds_dersler" Association="Self.FK_tbl_ds_dersprog_tbl_ds_dersler">
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_adres" Association="Self.FK_tbl_ds_kullanici_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_derece" Association="Self.FK_tbl_ds_kullanici_tbl_ds_derece">
+            <End Role="tbl_ds_derece" EntitySet="tbl_ds_derece" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_dersprog" Association="Self.FK_tbl_ds_kullanici_tbl_ds_dersprog">
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanicidersler_tbl_ds_dersler" Association="Self.FK_tbl_ds_kullanicidersler_tbl_ds_dersler">
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+            <End Role="tbl_ds_kullanicidersler" EntitySet="tbl_ds_kullanicidersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanicidersler_tbl_ds_kullanici" Association="Self.FK_tbl_ds_kullanicidersler_tbl_ds_kullanici">
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+            <End Role="tbl_ds_kullanicidersler" EntitySet="tbl_ds_kullanicidersler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DovusSanatlariModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_ds_adres">
+          <Key>
+            <PropertyRef Name="adres_id" />
+          </Key>
+          <Property Name="adres_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="il" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ilce" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="mahalle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cadde" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="sokak" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="bina_ad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="bina_no" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="kat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="postakodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_ds_dersler" Relationship="Self.FK_tbl_ds_dersler_tbl_ds_adres" FromRole="tbl_ds_adres" ToRole="tbl_ds_dersler" />
+          <NavigationProperty Name="tbl_ds_dersprog" Relationship="Self.FK_tbl_ds_dersprog_tbl_ds_adres" FromRole="tbl_ds_adres" ToRole="tbl_ds_dersprog" />
+          <NavigationProperty Name="tbl_ds_kullanici" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_adres" FromRole="tbl_ds_adres" ToRole="tbl_ds_kullanici" />
+        </EntityType>
+        <EntityType Name="tbl_ds_derece">
+          <Key>
+            <PropertyRef Name="ds_derece_id" />
+          </Key>
+          <Property Name="ds_derece_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ds_derece" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_ds_kullanici" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_derece" FromRole="tbl_ds_derece" ToRole="tbl_ds_kullanici" />
+        </EntityType>
+        <EntityType Name="tbl_ds_dersler">
+          <Key>
+            <PropertyRef Name="ds_ders_id" />
+          </Key>
+          <Property Name="ds_ders_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ds_ders_adi" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ds_ders_adres_fkid" Type="Byte" />
+          <NavigationProperty Name="tbl_ds_adres" Relationship="Self.FK_tbl_ds_dersler_tbl_ds_adres" FromRole="tbl_ds_dersler" ToRole="tbl_ds_adres" />
+          <NavigationProperty Name="tbl_ds_dersprog" Relationship="Self.FK_tbl_ds_dersprog_tbl_ds_dersler" FromRole="tbl_ds_dersler" ToRole="tbl_ds_dersprog" />
+          <NavigationProperty Name="tbl_ds_kullanici" Relationship="Self.tbl_ds_kullanicidersler" FromRole="tbl_ds_dersler" ToRole="tbl_ds_kullanici" />
+        </EntityType>
+        <EntityType Name="tbl_ds_dersprog">
+          <Key>
+            <PropertyRef Name="ds_dersprog_id" />
+          </Key>
+          <Property Name="ds_dersprog_id" Type="Byte" Nullable="false" />
+          <Property Name="ds_dersprog_tarih" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="ds_dersprog_ders_fkid" Type="Byte" />
+          <Property Name="ds_dersprog_adres_fkid" Type="Byte" />
+          <NavigationProperty Name="tbl_ds_adres" Relationship="Self.FK_tbl_ds_dersprog_tbl_ds_adres" FromRole="tbl_ds_dersprog" ToRole="tbl_ds_adres" />
+          <NavigationProperty Name="tbl_ds_dersler" Relationship="Self.FK_tbl_ds_dersprog_tbl_ds_dersler" FromRole="tbl_ds_dersprog" ToRole="tbl_ds_dersler" />
+          <NavigationProperty Name="tbl_ds_kullanici" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_dersprog" FromRole="tbl_ds_dersprog" ToRole="tbl_ds_kullanici" />
+        </EntityType>
+        <EntityType Name="tbl_ds_kullanici">
+          <Key>
+            <PropertyRef Name="ds_kullanici_id" />
+          </Key>
+          <Property Name="ds_kullanici_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ds_kullanici_stili" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ds_kullanici_ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ds_kullanici_soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ds_kullanici_adres" Type="Byte" />
+          <Property Name="ds_kullanici_yas" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="ds_kullanici_sifre" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="ds_kullanici_dpfkid" Type="Byte" />
+          <Property Name="ds_kullanici_derece_fkid" Type="Byte" />
+          <Property Name="ds_kullanici_posta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ds_kullanici_dersfkid" Type="Byte" />
+          <Property Name="ds_kullanici_aktif" Type="Boolean" />
+          <NavigationProperty Name="tbl_ds_adres" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_adres" FromRole="tbl_ds_kullanici" ToRole="tbl_ds_adres" />
+          <NavigationProperty Name="tbl_ds_derece" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_derece" FromRole="tbl_ds_kullanici" ToRole="tbl_ds_derece" />
+          <NavigationProperty Name="tbl_ds_dersprog" Relationship="Self.FK_tbl_ds_kullanici_tbl_ds_dersprog" FromRole="tbl_ds_kullanici" ToRole="tbl_ds_dersprog" />
+          <NavigationProperty Name="tbl_ds_dersler" Relationship="Self.tbl_ds_kullanicidersler" FromRole="tbl_ds_kullanici" ToRole="tbl_ds_dersler" />
+        </EntityType>
+        <EntityType Name="tbl_ds_menu">
+          <Key>
+            <PropertyRef Name="ds_menu_id" />
+          </Key>
+          <Property Name="ds_menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ds_menu_ad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ds_menu_yetki" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ds_menu_aktif" Type="Boolean" Nullable="false" />
+          <Property Name="ds_menu_sırala" Type="Int32" />
+          <Property Name="ds_menu_nav_url" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ds_menu_fkid" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_tbl_ds_dersler_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersler">
+              <PropertyRef Name="ds_ders_adres_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_dersprog_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_adres_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_adres">
+          <End Role="tbl_ds_adres" Type="Self.tbl_ds_adres" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_adres">
+              <PropertyRef Name="adres_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_adres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_derece">
+          <End Role="tbl_ds_derece" Type="Self.tbl_ds_derece" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_derece">
+              <PropertyRef Name="ds_derece_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_derece_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_dersprog_tbl_ds_dersler">
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="0..1" />
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_dersler">
+              <PropertyRef Name="ds_ders_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_ders_fkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ds_kullanici_tbl_ds_dersprog">
+          <End Role="tbl_ds_dersprog" Type="Self.tbl_ds_dersprog" Multiplicity="0..1" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ds_dersprog">
+              <PropertyRef Name="ds_dersprog_id" />
+            </Principal>
+            <Dependent Role="tbl_ds_kullanici">
+              <PropertyRef Name="ds_kullanici_dpfkid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tbl_ds_kullanicidersler">
+          <End Role="tbl_ds_dersler" Type="Self.tbl_ds_dersler" Multiplicity="*" />
+          <End Role="tbl_ds_kullanici" Type="Self.tbl_ds_kullanici" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DovusSanatlariEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tbl_ds_adres" EntityType="Self.tbl_ds_adres" />
+          <EntitySet Name="tbl_ds_derece" EntityType="Self.tbl_ds_derece" />
+          <EntitySet Name="tbl_ds_dersler" EntityType="Self.tbl_ds_dersler" />
+          <EntitySet Name="tbl_ds_dersprog" EntityType="Self.tbl_ds_dersprog" />
+          <EntitySet Name="tbl_ds_kullanici" EntityType="Self.tbl_ds_kullanici" />
+          <EntitySet Name="tbl_ds_menu" EntityType="Self.tbl_ds_menu" />
+          <AssociationSet Name="FK_tbl_ds_dersler_tbl_ds_adres" Association="Self.FK_tbl_ds_dersler_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_dersprog_tbl_ds_adres" Association="Self.FK_tbl_ds_dersprog_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_adres" Association="Self.FK_tbl_ds_kullanici_tbl_ds_adres">
+            <End Role="tbl_ds_adres" EntitySet="tbl_ds_adres" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_derece" Association="Self.FK_tbl_ds_kullanici_tbl_ds_derece">
+            <End Role="tbl_ds_derece" EntitySet="tbl_ds_derece" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_dersprog_tbl_ds_dersler" Association="Self.FK_tbl_ds_dersprog_tbl_ds_dersler">
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ds_kullanici_tbl_ds_dersprog" Association="Self.FK_tbl_ds_kullanici_tbl_ds_dersprog">
+            <End Role="tbl_ds_dersprog" EntitySet="tbl_ds_dersprog" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_ds_kullanicidersler" Association="Self.tbl_ds_kullanicidersler">
+            <End Role="tbl_ds_dersler" EntitySet="tbl_ds_dersler" />
+            <End Role="tbl_ds_kullanici" EntitySet="tbl_ds_kullanici" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DovusSanatlariModelStoreContainer" CdmEntityContainer="DovusSanatlariEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_adres">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_adres">
+              <MappingFragment StoreEntitySet="tbl_ds_adres">
+                <ScalarProperty Name="adres_id" ColumnName="adres_id" />
+                <ScalarProperty Name="il" ColumnName="il" />
+                <ScalarProperty Name="ilce" ColumnName="ilce" />
+                <ScalarProperty Name="mahalle" ColumnName="mahalle" />
+                <ScalarProperty Name="cadde" ColumnName="cadde" />
+                <ScalarProperty Name="sokak" ColumnName="sokak" />
+                <ScalarProperty Name="bina_ad" ColumnName="bina_ad" />
+                <ScalarProperty Name="bina_no" ColumnName="bina_no" />
+                <ScalarProperty Name="kat" ColumnName="kat" />
+                <ScalarProperty Name="postakodu" ColumnName="postakodu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_derece">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_derece">
+              <MappingFragment StoreEntitySet="tbl_ds_derece">
+                <ScalarProperty Name="ds_derece_id" ColumnName="ds_derece_id" />
+                <ScalarProperty Name="ds_derece" ColumnName="ds_derece" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_dersler">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_dersler">
+              <MappingFragment StoreEntitySet="tbl_ds_dersler">
+                <ScalarProperty Name="ds_ders_id" ColumnName="ds_ders_id" />
+                <ScalarProperty Name="ds_ders_adi" ColumnName="ds_ders_adi" />
+                <ScalarProperty Name="ds_ders_adres_fkid" ColumnName="ds_ders_adres_fkid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_dersprog">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_dersprog">
+              <MappingFragment StoreEntitySet="tbl_ds_dersprog">
+                <ScalarProperty Name="ds_dersprog_id" ColumnName="ds_dersprog_id" />
+                <ScalarProperty Name="ds_dersprog_tarih" ColumnName="ds_dersprog_tarih" />
+                <ScalarProperty Name="ds_dersprog_ders_fkid" ColumnName="ds_dersprog_ders_fkid" />
+                <ScalarProperty Name="ds_dersprog_adres_fkid" ColumnName="ds_dersprog_adres_fkid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_kullanici">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_kullanici">
+              <MappingFragment StoreEntitySet="tbl_ds_kullanici">
+                <ScalarProperty Name="ds_kullanici_id" ColumnName="ds_kullanici_id" />
+                <ScalarProperty Name="ds_kullanici_stili" ColumnName="ds_kullanici_stili" />
+                <ScalarProperty Name="ds_kullanici_ad" ColumnName="ds_kullanici_ad" />
+                <ScalarProperty Name="ds_kullanici_soyad" ColumnName="ds_kullanici_soyad" />
+                <ScalarProperty Name="ds_kullanici_adres" ColumnName="ds_kullanici_adres" />
+                <ScalarProperty Name="ds_kullanici_yas" ColumnName="ds_kullanici_yas" />
+                <ScalarProperty Name="ds_kullanici_sifre" ColumnName="ds_kullanici_sifre" />
+                <ScalarProperty Name="ds_kullanici_dpfkid" ColumnName="ds_kullanici_dpfkid" />
+                <ScalarProperty Name="ds_kullanici_derece_fkid" ColumnName="ds_kullanici_derece_fkid" />
+                <ScalarProperty Name="ds_kullanici_posta" ColumnName="ds_kullanici_posta" />
+                <ScalarProperty Name="ds_kullanici_dersfkid" ColumnName="ds_kullanici_dersfkid" />
+                <ScalarProperty Name="ds_kullanici_aktif" ColumnName="ds_kullanici_aktif" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ds_menu">
+            <EntityTypeMapping TypeName="DovusSanatlariModel.tbl_ds_menu">
+              <MappingFragment StoreEntitySet="tbl_ds_menu">
+                <ScalarProperty Name="ds_menu_id" ColumnName="ds_menu_id" />
+                <ScalarProperty Name="ds_menu_ad" ColumnName="ds_menu_ad" />
+                <ScalarProperty Name="ds_menu_yetki" ColumnName="ds_menu_yetki" />
+                <ScalarProperty Name="ds_menu_aktif" ColumnName="ds_menu_aktif" />
+                <ScalarProperty Name="ds_menu_sırala" ColumnName="ds_menu_sırala" />
+                <ScalarProperty Name="ds_menu_nav_url" ColumnName="ds_menu_nav_url" />
+                <ScalarProperty Name="ds_menu_fkid" ColumnName="ds_menu_fkid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tbl_ds_kullanicidersler" TypeName="DovusSanatlariModel.tbl_ds_kullanicidersler" StoreEntitySet="tbl_ds_kullanicidersler">
+            <EndProperty Name="tbl_ds_dersler">
+              <ScalarProperty Name="ds_ders_id" ColumnName="ds_ders_fkid" />
+            </EndProperty>
+            <EndProperty Name="tbl_ds_kullanici">
+              <ScalarProperty Name="ds_kullanici_id" ColumnName="ds_kullanici_fkid" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
